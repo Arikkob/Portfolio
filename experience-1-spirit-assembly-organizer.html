@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Spirit Assembly Organizer</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
+    <style>
+      :root {
+        --bg: #f4f5f4;
+        --bg-alt: #eceeea;
+        --panel: #ffffff;
+        --panel-soft: #f0f2ef;
+        --heading: #1c2421;
+        --text: #44514b;
+        --muted: #62716b;
+        --accent: #3d6b57;
+        --accent-strong: #294d3d;
+        --accent-soft: rgba(61, 107, 87, 0.12);
+        --secondary: #6a7d73;
+        --line: rgba(30, 43, 38, 0.18);
+        --shadow: 0 12px 28px rgba(18, 27, 24, 0.08);
+      }
+
+      * { box-sizing: border-box; }
+      html { scroll-behavior: smooth; }
+      body {
+        margin: 0;
+        font-family: Arial, Helvetica, sans-serif;
+        background: radial-gradient(ellipse at 50% 0%, rgba(61, 107, 87, 0.1), transparent 44%),
+          linear-gradient(180deg, #f7f7f6 0%, #eef1ee 100%);
+        color: var(--text);
+      }
+
+      a { color: inherit; text-decoration: none; }
+      img { max-width: 100%; display: block; }
+
+      .detail-shell {
+        width: min(1200px, 90%);
+        margin: 0 auto;
+        padding: 0px 0 48px;
+      }
+
+      .page-nav {
+        position: sticky;
+        top: 0;
+        z-index: 1000;
+        width: 100vw;
+        margin-left: calc(50% - 50vw);
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 18px;
+        padding: 18px clamp(20px, 4vw, 44px) 18px;
+        background: rgba(255, 255, 255, 0.94);
+        backdrop-filter: blur(10px);
+        border-bottom: 1px solid var(--line);
+        transition: background-color 0.25s ease, border-color 0.25s ease, backdrop-filter 0.25s ease;
+      }
+
+      .page-nav.scrolled,
+      .page-nav:hover,
+      .page-nav:focus-within {
+        background: rgba(255, 255, 255, 0.58);
+      }
+
+      .detail-nav-links {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 22px;
+        flex: 1;
+        flex-wrap: wrap;
+      }
+
+      .detail-nav-links a {
+        color: var(--muted);
+        font-weight: 700;
+        font-size: 0.85rem;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        transition: color 0.2s ease, transform 0.2s ease;
+        display: inline-block;
+      }
+
+      .detail-nav-links a:hover,
+      .detail-nav-links a:focus-visible {
+        color: var(--accent);
+        transform: translateY(-2px) scale(1.01);
+      }
+
+      .home-link {
+        width: 20px;
+        height: 20px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        border: none;
+        background: transparent;
+        padding: 0;
+        transition: color 0.2s ease, transform 0.2s ease;
+      }
+
+      .home-link:hover,
+      .home-link:focus-visible {
+        color: var(--accent);
+        transform: translateY(-1px);
+      }
+
+      .home-link i {
+        display: block;
+        font-size: 18px;
+        line-height: 1;
+        opacity: 0.88;
+      }
+
+      .nav-button {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        color: var(--heading);
+        font-weight: 700;
+        font-size: 0.9rem;
+        transition: color 0.2s ease, transform 0.2s ease;
+        white-space: nowrap;
+      }
+
+      .nav-button:hover,
+      .nav-button:focus-visible {
+        color: var(--accent);
+        transform: translateY(-2px) scale(1.01);
+      }
+
+      .nav-button .arrow {
+        font-size: 1.3rem;
+        line-height: 1;
+      }
+
+      .hero {
+        text-align: center;
+        padding: 12px 0 16px;
+      }
+
+      h1 {
+        margin: 0 0 24px;
+        color: var(--heading);
+        font-size: clamp(2.2rem, 5vw, 4rem);
+        letter-spacing: -0.04em;
+      }
+
+      h1::after {
+        content: "";
+        display: block;
+        width: 64px;
+        height: 4px;
+        margin: 14px auto 0;
+        border-radius: 999px;
+        background: var(--accent);
+        opacity: 0.75;
+      }
+
+      .feature-image {
+        width: min(800px, 100%);
+        height: auto;
+        margin: 0 auto 28px;
+        border-radius: 22px;
+        overflow: hidden;
+        background-image: url('https://images.unsplash.com/photo-1523240795612-9a054b0db644?auto=format&fit=crop&w=1200&q=80');
+        background-size: cover;
+        background-position: center;
+        border: 1px solid var(--line);
+      }
+
+      .summary {
+        background: var(--panel);
+        border: 1px solid var(--line);
+        border-radius: 24px;
+        padding: 28px;
+        box-shadow: 0 18px 30px rgba(15, 23, 42, 0.04);
+      }
+
+      .summary-section + .summary-section {
+        margin-top: 28px;
+      }
+
+      h2 {
+        margin: 0 0 12px;
+        color: var(--heading);
+        font-size: clamp(1.5rem, 2vw, 2.2rem);
+        padding: 10px 14px;
+        border-left: 4px solid var(--accent);
+        border-radius: 0 10px 10px 0;
+        background: linear-gradient(90deg, var(--accent-soft), rgba(61, 107, 87, 0));
+      }
+
+      .summary {
+        border-top: 3px solid rgba(61, 107, 87, 0.46);
+      }
+
+      .summary-section + .summary-section {
+        padding-top: 22px;
+        border-top: 1px solid rgba(61, 107, 87, 0.16);
+      }
+
+      .feature-image,
+      .media-grid img,
+      .image-placeholder,
+      .video-placeholder {
+        box-shadow: 0 16px 34px rgba(41, 77, 61, 0.12);
+      }
+
+      .media-grid img {
+        border-color: rgba(61, 107, 87, 0.24);
+      }
+
+      .summary .media-grid img {
+        border-color: rgba(61, 107, 87, 0.24);
+      }
+
+      p {
+        margin: 0 0 14px;
+        line-height: 1.8;
+        color: var(--text);
+        font-size: 1.1rem;
+      }
+
+      .media-grid {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 16px;
+        margin: 22px 0 22px;
+      }
+
+      .media-grid img {
+        width: 100%;
+        height: 240px;
+        object-fit: cover;
+        border-radius: 18px;
+        border: 1px solid var(--line);
+      }
+
+      .video-placeholder {
+        display: grid;
+        place-items: center;
+        min-height: 240px;
+        border-radius: 18px;
+        background: linear-gradient(135deg, rgba(61, 107, 87, 0.12), rgba(41, 77, 61, 0.08));
+        border: 1px solid var(--line);
+        color: var(--heading);
+        font-weight: 700;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+      }
+
+      .image-placeholder {
+        width: min(700px, 100%);
+        margin: 22px auto 6px;
+        display: grid;
+        place-items: center;
+        border-radius: 18px;
+        background: linear-gradient(135deg, rgba(61, 107, 87, 0.12), rgba(41, 77, 61, 0.08));
+        border: 1px solid var(--line);
+        color: var(--heading);
+        font-weight: 700;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+      }
+
+      @media (max-width: 700px) {
+        .page-nav {
+          flex-wrap: wrap;
+        }
+
+        .nav-button, .back-link {
+          flex: 1 1 100%;
+          justify-content: center;
+          text-align: center;
+        }
+
+        .media-grid {
+          grid-template-columns: 1fr;
+        }
+      }
+    </style>
+  </head>
+  <body id="top">
+    <div class="detail-shell">
+      <header class="page-nav">
+        <a class="nav-button prev" href="experience-3-summer-camp-leader.html"><span class="arrow">‹</span> Summer Camp Leader</a>
+        <nav class="detail-nav-links" aria-label="Main navigation">
+          <a class="home-link" href="portfolio-engineering.html#top" aria-label="Back to home">
+            <i class="fa-solid fa-house-chimney" aria-hidden="true"></i>
+          </a>
+          <a href="portfolio-engineering.html#projects">Projects</a>
+          <a href="portfolio-engineering.html#experience">Experience</a>
+          <a href="portfolio-engineering.html#education">Education</a>
+          <a href="portfolio-engineering.html#about">About Me</a>
+        </nav>
+        <a class="nav-button next" href="experience-2-team-talons.html">Team Talons <span class="arrow">›</span></a>
+      </header>
+
+      <script>
+        const detailNav = document.querySelector('.page-nav');
+        const updateDetailNavState = () => {
+          if (!detailNav) return;
+          detailNav.classList.toggle('scrolled', window.scrollY > 8);
+        };
+        updateDetailNavState();
+        window.addEventListener('scroll', updateDetailNavState, { passive: true });
+      </script>
+
+      <main>
+        <section class="hero">
+          <h1>Spirit Assembly Organizer</h1>
+          <img class="feature-image" src="spirit-solo.jpg"></img>
+        </section>
+
+        <article class="summary">
+          <section class="summary-section">
+            <h2>What is the Spirit Assembly</h2>
+            <p>
+              The Spirit Assembly is a yearly tradition at my high school, Gleneagle Secondary School, 
+              where each grade, as well as teachers & staff, compete against each other in a series of 
+              fun games, with the goal of boosting school community and raising money for charity. It is 
+              a large scale event, involving the entire school (1300+ people), as well as organizations 
+              outisde of the school through guest speakers, performers, and sponsors.
+
+              At Gleneagle, the Spirit Assembly is entirely organized and run by members of the 
+              Con X Program, a leadership program which trains students' leadership skills through 
+              community initiatives and volunteering opportunities. 
+            </p>
+          </section>
+
+          <section class="summary-section">
+            <h2>My Role</h2>
+            <p>
+              In my senior year, myself and four other Con X members undertook the planning for the 
+              Spring 2025 Spirit Assembly. The project overall 
+              required a massive amount of planning, including scheduling, coordinating with school admin and other organizations,
+              managing donations, marketing and social media, acquiring equipment, script writing, training volunteers, art design for the assembly, and reaching out to potential sponsors.
+              <br>
+              Many of these responsibilites were delegated within the group, and my contribution was 
+              mainly around coordinating with admin and school clubs, script writing, training volunteers, reaching out to sponsors, 
+              and planning the logistics of the assembly itself. I had also volunteered to be one of the 
+              emcees of the assembly, which was quite intimidating as it would be my first time speaking in 
+              front of 1000+ people.
+            </p>
+          </section>
+
+          <div class="media-grid">
+            <img src="spirit-squad.jpg" />
+            <img src="spirit-terry.jpg" />
+          </div>
+          
+          <section class="summary-section">
+            <p>
+              I was determined to make this assembly special by doing something that hasn't been done before, 
+              my idea was to orchestrate a starting performance similar to those of many concerts, where the performing artist 
+              will enter the stage in a dramatic and flashy way, only we would replace the artist with the school mascot, "Terry the Talon",
+              and the performance would be a live band paired with a pre-recorded video and the a performance from the school cheer team. 
+              I spearheaded this idea mostly on my own, coordinating with the band, cheer team, and my photographer friend. 
+              I believe this to be my proudest contribution, since it was innovative and brought to life through my own initiative. 
+
+              You can watch the final product of the opening performance, as well as a highlight video of the assembly in the following links:
+            </p>
+            <p><b>Opening Performance Video:</b> <a href="https://www.instagram.com/reel/DIaPlQJpOYy/" target="_blank">https://www.instagram.com/reel/DIaPlQJpOYy/</a></p>
+            <p><b>Assembly Highlights Video:</b> <a href="https://www.instagram.com/reel/DIrZ8B_Ti77/" target="_blank">https://www.instagram.com/reel/DIrZ8B_Ti77/</a></p>
+
+            <p>
+              Our assembly was also focused on raising money for the BCSPCA, and we had a BSCPCA guest speaker at the assembly to talk about the mission of the BCSPCA. 
+              As for the fundraiser, we managed to raise $1850 through donations alone, which was just shy of our ambitious goal of $2000, but still a great result and well above the standard for Spirit Assemblies.
+            </p>
+          </section>
+
+            <img class="image-placeholder" src="spirit-fundraiser.jpg" />
+
+          <section class="summary-section">
+            <h2>Takeaways</h2>
+            <p>
+              Through the amount of coordination required for the assembly and through the constant communication with my team, I've trained my ability 
+              to communicate with clarity and precision. Speaking in front of a large audience also gave me the opportunity to truly test and improve my public speaking. 
+              Lastly, my experience with the opening performance gave me confidence in pursuing my own ideas and bringing them to life, as well as taught me principles of resourcefulness and strategy in the process of attaining my goals.
+            </p>
+          </section>
+        </article>
+      </main>
+    </div>
+  </body>
+</html>

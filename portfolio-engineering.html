@@ -1,0 +1,906 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Arik Kobiliansky | Engineering Portfolio</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
+    <style>
+      :root {
+        --bg: #f4f5f4;
+        --bg-alt: #eceeea;
+        --panel: #ffffff;
+        --panel-soft: #f0f2ef;
+        --card: #ffffff;
+        --heading: #1c2421;
+        --text: #44514b;
+        --muted: #62716b;
+        --accent: #3d6b57;
+        --accent-strong: #294d3d;
+        --accent-soft: rgba(61, 107, 87, 0.12);
+        --secondary: #6a7d73;
+        --line: rgba(30, 43, 38, 0.18);
+        --shadow: 0 12px 28px rgba(18, 27, 24, 0.08);
+        --success: #2f5d4d;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      html {
+        scroll-behavior: smooth;
+      }
+
+      body {
+        margin: 0;
+        font-family: Arial, Helvetica, sans-serif;
+        background: linear-gradient(180deg, #f7f7f6 0%, #eef1ee 100%);
+        color: var(--text);
+      }
+
+      a {
+        color: inherit;
+        text-decoration: none;
+      }
+
+      img {
+        max-width: 100%;
+        display: block;
+      }
+
+      .container {
+        width: min(1060px, calc(100% - 40px));
+        margin: 0 auto;
+      }
+
+      .site-header {
+        position: sticky;
+        top: 0;
+        z-index: 1000;
+        background: rgba(255, 255, 255, 0.94);
+        backdrop-filter: blur(10px);
+        border-bottom: 1px solid var(--line);
+        transition: background-color 0.25s ease, border-color 0.25s ease, backdrop-filter 0.25s ease;
+      }
+
+      .site-header.scrolled,
+      .site-header:hover,
+      .site-header:focus-within {
+        background: rgba(255, 255, 255, 0.58);
+      }
+
+      .nav-wrap {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 60px;
+      }
+
+      .nav {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 22px;
+        flex-wrap: wrap;
+      }
+
+      .nav a {
+        color: var(--muted);
+        font-weight: 700;
+        font-size: 0.85rem;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        transition: color 0.2s ease, transform 0.2s ease, background-color 0.2s ease, border-color 0.2s ease;
+        display: inline-block;
+        transform-origin: center;
+      }
+
+      .nav a:hover,
+      .nav a:focus-visible {
+        color: var(--accent);
+        transform: translateY(-2px) scale(1.01);
+      }
+
+      .home-link {
+        width: 20px;
+        height: 20px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        border: none;
+        background: transparent;
+        padding: 0;
+        transition: color 0.2s ease, transform 0.2s ease;
+      }
+
+      .home-link:hover,
+      .home-link:focus-visible {
+        color: var(--accent);
+        transform: translateY(-1px);
+      }
+
+      .home-link i {
+        font-size: 18px;
+        line-height: 1;
+        opacity: 0.88;
+      }
+
+      .hero {
+        min-height: calc(100vh - 72px);
+        display: flex;
+        align-items: center;
+        padding: 44px 0 48px;
+      }
+
+      .hero-grid {
+        display: grid;
+        grid-template-columns: 1.08fr 0.92fr;
+        gap: 40px;
+        align-items: center;
+        max-width: 1040px;
+        margin: 0 auto;
+        width: 100%;
+      }
+
+      h1, h2, h3, h4 {
+        margin: 0 0 16px;
+        color: var(--heading);
+      }
+
+      h1 {
+        font-size: clamp(2.8rem, 5.6vw, 5rem);
+        line-height: 0.96;
+        letter-spacing: -0.065em;
+        margin: 12px 0 0;
+      }
+
+      h2 {
+        font-size: clamp(2rem, 3vw, 3rem);
+        letter-spacing: -0.03em;
+      }
+
+      p {
+        margin: 0px 0 18px;
+        line-height: 1.7;
+        color: var(--text);
+        font-size: 1.1rem;
+      }
+
+      .hero-copy {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: flex-start;
+        width: 100%;
+      }
+
+      .hero-name-block {
+        width: 100%;
+        max-width: 560px;
+      }
+
+      .hero-copy p {
+        max-width: 560px;
+        font-size: 1.1rem;
+      }
+
+      .social-links {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 14px;
+        margin-top: 18px;
+        width: 100%;
+        max-width: 560px;
+      }
+
+      .social-link {
+        width: 42px;
+        height: 42px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        border: 1px solid var(--line);
+        border-radius: 10px;
+        background: rgba(255, 255, 255, 0.8);
+        color: var(--heading);
+        transition: transform 0.2s ease, background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+        box-shadow: none;
+      }
+
+      .social-link:hover,
+      .social-link:focus-visible {
+        transform: translateY(-1px);
+        background: var(--accent);
+        border-color: var(--accent);
+        color: white;
+        box-shadow: 0 10px 18px rgba(61, 107, 87, 0.16);
+      }
+
+      .social-link i {
+        font-size: 1.12rem;
+        line-height: 1;
+      }
+
+      .cta-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 16px;
+        margin-top: 28px;
+      }
+
+      .button {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        padding: 13px 22px;
+        border-radius: 0;
+        border: 1px solid transparent;
+        font-weight: 700;
+        letter-spacing: 0.04em;
+        text-transform: uppercase;
+        font-size: 0.76rem;
+        transition: transform 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+      }
+
+      .button:hover {
+        transform: translateY(-1px);
+      }
+
+      .button.primary {
+        background: var(--accent);
+        color: white;
+        box-shadow: none;
+      }
+
+      .button.primary:hover,
+      .button.primary:focus-visible {
+        background: white;
+        border-color: var(--accent);
+        color: var(--accent);
+      }
+
+      .button.secondary {
+        background: white;
+        border-color: var(--accent);
+        color: var(--accent);
+      }
+
+      .button.secondary:hover,
+      .button.secondary:focus-visible {
+        background: var(--accent);
+        border-color: var(white);
+        color: white;
+      }
+
+      .profile-card {
+        background: transparent;
+        border: none;
+        border-radius: 0;
+        padding: 0;
+        box-shadow: none;
+        width: min(100%, 430px);
+        justify-self: center;
+      }
+
+      .profile-image {
+        position: relative;
+        overflow: hidden;
+        border-radius: 18px;
+        height: min(46vh, 430px);
+        min-height: 330px;
+        background-image: url('https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&w=900&q=80');
+        background-size: cover;
+        background-position: center;
+        border: 1px solid var(--line);
+      }
+
+      .profile-badge {
+        position: absolute;
+        bottom: 18px;
+        left: 18px;
+        right: 18px;
+        background: rgba(17, 24, 39, 0.72);
+        color: white;
+        border-radius: 14px;
+        padding: 14px 16px;
+        backdrop-filter: blur(8px);
+      }
+
+      .profile-badge strong {
+        display: block;
+        margin-bottom: 4px;
+      }
+
+      .section {
+        padding: 32px 0 50px;
+      }
+
+      .section-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 16px;
+        margin-bottom: 28px;
+      }
+
+      .section-header p {
+        max-width: 600px;
+        margin: 0;
+      }
+
+      .project-grid,
+      .experience-grid {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 22px;
+        align-items: stretch;
+      }
+
+      .project-card,
+      .experience-card {
+        display: block;
+        background: var(--card);
+        border: 1px solid var(--line);
+        border-radius: 18px;
+        overflow: hidden;
+        box-shadow: 0 10px 18px rgba(15, 23, 42, 0.04);
+        transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+      }
+
+      .project-card:hover,
+      .experience-card:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 14px 24px rgba(15, 23, 42, 0.08);
+        border-color: rgba(61, 107, 87, 0.35);
+      }
+
+      .card-image {
+        display: block;
+        width: 100%;
+        height: 220px;
+        object-fit: cover;
+        object-position: center;
+      }
+
+      .card-body {
+        padding: 22px 20px 24px;
+      }
+
+      .pill {
+        display: inline-block;
+        margin-bottom: 12px;
+        padding: 6px 10px;
+        border-radius: 0;
+        background: var(--accent-soft);
+        color: var(--accent-strong);
+        font-size: 0.7rem;
+        font-weight: 700;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+      }
+
+      .card-body h3 {
+        font-size: 1.5rem;
+        margin-bottom: 10px;
+      }
+
+      .card-body p {
+        margin-bottom: 0;
+      }
+
+      .edu-layout {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 18px;
+      }
+
+      .edu-panel {
+        background: var(--panel);
+        border: 1px solid var(--line);
+        border-radius: 18px;
+        padding: 22px;
+        box-shadow: 0 8px 18px rgba(15, 23, 42, 0.04);
+      }
+
+      .edu-program strong {
+        display: block;
+        color: var(--heading);
+        margin-bottom: 8px;
+        font-size: 1rem;
+        line-height: 1.45;
+      }
+
+      .edu-program p {
+        margin: 0;
+      }
+
+      .edu-program p + p {
+        margin-top: 4px;
+      }
+
+      .edu-meta {
+        color: var(--accent-strong);
+        font-size: 0.8rem;
+        font-weight: 700;
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+        margin-bottom: 12px;
+      }
+
+      .tag-list {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+      }
+
+      .tag {
+        padding: 7px 10px;
+        border-radius: 0;
+        background: var(--panel-soft);
+        color: var(--heading);
+        border: 1px solid var(--line);
+        font-size: 0.76rem;
+        font-weight: 700;
+      }
+
+      .course-list {
+        display: grid;
+        gap: 8px;
+        margin: 0;
+        padding: 0;
+        list-style: none;
+      }
+
+      .course-list li {
+        display: flex;
+        justify-content: space-between;
+        gap: 8px;
+        padding-bottom: 7px;
+        border-bottom: 1px solid var(--line);
+        font-size: 0.86rem;
+        line-height: 1.35;
+      }
+
+      .course-list li:last-child {
+        padding-bottom: 0;
+        border-bottom: 0;
+      }
+
+      .course-list span {
+        color: var(--muted);
+        white-space: nowrap;
+      }
+
+      .about-layout {
+        display: grid;
+        gap: 24px;
+      }
+
+      #about .section-header {
+        justify-content: center;
+        text-align: center;
+        margin-bottom: 24px;
+      }
+
+      .about-row {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        align-items: stretch;
+        gap: 28px;
+      }
+
+      .about-copy {
+        min-height: 320px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        padding: 28px;
+        background: rgba(236, 238, 234, 0.58);
+        border: 1px solid rgba(30, 43, 38, 0.1);
+        border-radius: 24px;
+      }
+
+      .about-copy p {
+        margin: 0;
+        font-size: 1.08rem;
+        line-height: 1.85;
+      }
+
+      .about-kicker {
+        margin: 0 0 16px;
+        color: var(--accent-strong);
+        font-size: 0.76rem;
+        font-weight: 700;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+      }
+
+      .about-visual-stack {
+        display: grid;
+        grid-template-columns: 1fr;
+        grid-template-rows: minmax(0, 1fr);
+        gap: 16px;
+      }
+
+      .about-row--passions .about-visual-stack {
+        grid-template-rows: repeat(2, minmax(0, 1fr));
+      }
+
+      .about-visual {
+        overflow: hidden;
+        border-radius: 20px;
+      }
+
+      .about-visual img {
+        display: block;
+        width: 100%;
+        height: 100%;
+        min-height: 160px;
+        object-fit: cover;
+        object-position: center;
+        border-radius: inherit;
+        box-shadow: 0 10px 24px rgba(18, 27, 24, 0.12);
+      }
+
+      .about-row--passions .about-visual-stack {
+        order: 0;
+      }
+
+      .about-row--passions .about-copy {
+        order: 1;
+      }
+
+      .footer {
+        padding: 28px 0 40px;
+        color: var(--muted);
+        text-align: center;
+      }
+
+      @media (max-width: 900px) {
+        .nav {
+          gap: 18px;
+        }
+
+        .hero-grid,
+        .edu-layout,
+        .project-grid,
+        .experience-grid {
+          grid-template-columns: 1fr;
+        }
+
+        .nav-wrap {
+          flex-wrap: wrap;
+          justify-content: center;
+          gap: 12px;
+          padding: 12px 0;
+        }
+
+        .nav {
+          width: 100%;
+          justify-content: center;
+          flex-wrap: wrap;
+        }
+
+        .section-header {
+          display: block;
+        }
+
+        .section-header p {
+          margin-top: 10px;
+        }
+
+        .about-layout {
+          gap: 18px;
+        }
+
+        .about-row {
+          grid-template-columns: 1fr;
+          gap: 16px;
+        }
+
+      }
+
+      @media (max-width: 560px) {
+        .hero {
+          padding-top: 48px;
+        }
+
+        .profile-image {
+          height: 420px;
+        }
+
+        .cta-row {
+          flex-direction: column;
+        }
+
+        .button {
+          width: 100%;
+        }
+        .desc {
+          margin: 40px;
+        }
+
+        .about-copy {
+          padding: 24px 20px;
+        }
+
+      }
+    </style>
+  </head>
+  <body id="top">
+    <header class="site-header">
+      <div class="container nav-wrap">
+        <nav class="nav" aria-label="Main navigation">
+          <a class="home-link" href="#top" aria-label="Back to top">
+            <i class="fa-solid fa-house-chimney" aria-hidden="true"></i>
+          </a>
+          <a href="#projects">Projects</a>
+          <a href="#experience">Experience</a>
+          <a href="#education">Education</a>
+          <a href="#about">About Me</a>
+        </nav>
+      </div>
+    </header>
+    <script>
+      const siteHeader = document.querySelector('.site-header');
+      const updateHeaderState = () => {
+        if (!siteHeader) return;
+        siteHeader.classList.toggle('scrolled', window.scrollY > 8);
+      };
+      updateHeaderState();
+      window.addEventListener('scroll', updateHeaderState, { passive: true });
+    </script>
+    <main>
+      <section class="hero">
+        <div class="container hero-grid">
+          <div class="hero-copy">
+            <div class="hero-name-block">
+              <h1>Arik Kobiliansky</h1>
+            </div>
+            <p style="margin-top: 8px">
+              I’m a second-year Engineering Physics student at the University of British Columbia. I love engineering, beautiful logic and creativity, 
+              and spreading joy to the world.
+            </p>
+            <div class="cta-row">
+              <a class="button secondary" href="#projects">View Projects</a>
+              <a class="button secondary" href="#experience">My Experience</a>
+              <a class="button primary" href="Arik Kobiliansky Resume.pdf" download>Resume</a>
+            </div>
+          </div>
+
+          <div class="profile-card">
+            <div class="profile-image">
+              <img src="profile-pic.jpg"></img>
+            </div>
+            <div class="social-links" aria-label="Social links" style="margin-top: 18px; max-width: none;">
+              <a class="social-link" href="mailto:arikkob@gmail.com" aria-label="Email Arik Kobiliansky">
+                <i class="fa-solid fa-envelope" aria-hidden="true"></i>
+              </a>
+              <a class="social-link" href="https://www.linkedin.com/in/arik-kobiliansky" target="_blank" rel="noreferrer" aria-label="LinkedIn profile">
+                <i class="fa-brands fa-linkedin-in" aria-hidden="true"></i>
+              </a>
+              <a class="social-link" href="https://github.com/Arikkob" target="_blank" rel="noreferrer" aria-label="GitHub profile">
+                <i class="fa-brands fa-github" aria-hidden="true"></i>
+              </a>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="projects" class="section">
+        <div class="container">
+          <div class="section-header">
+            <div>
+              <h2>Projects</h2>
+            </div>
+            <p>
+            
+            </p>
+          </div>
+
+          <div class="project-grid">
+            <a class="project-card" href="project-1-mechanical-claw.html" aria-label="Open project details for Mechanical Claw">
+              <img class="card-image" src="mechanical-claw.jpg" alt="Mechanical claw project" />
+              <div class="card-body">
+                <span class="pill">Mechanical Design</span>
+                <span class="pill">Arduino</span>
+                <h3>Mechanical Claw</h3>
+                <p>
+                  Designed and built an automatic, sensor-based claw for a competition using sheet metal, cardboard,
+                  Arduino, and a servo motor.
+                </p>
+              </div>
+            </a>
+
+            <a class="project-card" href="project-2-electric-guitar-pedal.html" aria-label="Open project details for Electric Guitar Pedal">
+              <img class="card-image" src="pedal-trace.png" alt="Electric guitar pedal circuit trace" />
+              <div class="card-body">
+                <span class="pill">Electronics</span>
+                <span class="pill">Circuit Design</span>
+                <h3>Electric Guitar Pedal</h3>
+                <p>
+                  Designed and simulation a distortion pedal for an electric guitar using KiCad and LTSpice.
+                </p>
+              </div>
+            </a>
+
+            <a class="project-card" href="project-3-cardboard-chair.html" aria-label="Open project details for Campus Safety App">
+              <img class="card-image" src="chip.png" alt="Cardboard chair project" />
+              <div class="card-body">
+                <span class="pill">Mechanical Design</span>
+                <h3>Cardboard Chair</h3>
+                <p>
+                  Designed a chair made entirely out of a 4x4ft sheet of cardboard which can support over 240lbs and put together in under 15 seconds.
+                </p>
+              </div>
+            </a>
+          </div>
+        </div>
+      </section>
+
+      <section id="experience" class="section">
+        <div class="container">
+          <div class="section-header">
+            <div>
+              <h2>Experience</h2>
+            </div>
+            <p>
+            
+            </p>
+          </div>
+
+          <div class="experience-grid">
+            <a class="experience-card" href="experience-1-spirit-assembly-organizer.html" aria-label="Open experience details for Robotics Team Lead">
+              <img class="card-image" src="spirit-solo.jpg" alt="Spirit assembly organizing" />
+              <div class="card-body">
+                <span class="pill">Event Planning</span>
+                <span class="pill">Emcee</span>
+                <h3>Spirit Assembly Organizer</h3>
+                <p>
+                  Planned and emceed an assembly for over 1300 people which raised over $1800 for the BCSPCA.
+                </p>
+              </div>
+            </a>
+
+            <a class="experience-card" href="experience-2-team-talons.html" aria-label="Open experience details for Research Assistant">
+              <img class="card-image" src="team-talons-squad.jpg" alt="Team Talons group" />
+              <div class="card-body">
+                <span class="pill">Community Initiative</span>
+                <span class="pill">Leadership</span>
+                <h3>Team Talons</h3>
+                <p>
+                  Founded and ran an elementary school sports program at 3 schools, aiming to encourage healthy physical activity and foster community.
+                </p>
+              </div>
+            </a>
+
+            <a class="experience-card" href="experience-3-summer-camp-leader.html" aria-label="Open experience details for Software Tutoring">
+              <img class="card-image" src="GC-icecream.png" alt="Summer camp group activity" />
+              <div class="card-body">
+                <span class="pill">Mentor</span>
+                <span class="pill">Leadership</span>
+                <h3>Summer Camp Leader</h3>
+                <p>
+                  Supervised and engaged with international students at Global College English School Summer Camp.
+                </p>
+              </div>
+            </a>
+          </div>
+        </div>
+      </section>
+
+      <section id="education" class="section">
+        <div class="container">
+          <div class="section-header">
+            <div>
+              <h2>Education</h2>
+            </div>
+          </div>
+
+          <div class="edu-layout">
+            <section class="edu-panel edu-program">
+              <div class="edu-meta">Current Program</div>
+              <strong>Bachelor of Applied Science in Engineering Physics</strong>
+              <p>University of British Columbia</p>
+              <p>Expected graduation: May 2030</p>
+            </section>
+
+            <section class="edu-panel">
+              <div class="edu-meta">Relevant Courses</div>
+              <ul class="course-list">
+                <li>Experimental Techniques <span>ENPH 259</span></li>
+                <li>Linear Circuits <span>ELEC 204</span></li>
+                <li>Calculus 3 &amp; 4 <span>MATH 217</span></li>
+                <li>Mechanics I <span>PHYS 170</span></li>
+                <li>Software Construction <span>CPEN 221</span></li>
+                <li>Linear Algebra <span>MATH 152</span></li>
+              </ul>
+            </section>
+
+            <section class="edu-panel">
+              <div class="edu-meta">Skills</div>
+              <div class="tag-list">
+                <span class="tag">C/C++</span>
+                <span class="tag">Python</span>
+                <span class="tag">Java</span>
+                <span class="tag">HTML/CSS/JS</span>
+                <span class="tag">MATLAB</span>
+                <span class="tag">AutoCAD</span>
+                <span class="tag">Fusion360</span>
+                <span class="tag">Engineering Drawings</span>
+                <span class="tag">KiCAD</span>
+                <span class="tag">LTSpice</span>
+                <span class="tag">Circuit Analysis</span>
+                <span class="tag">Python</span>
+                <span class="tag">Excel</span>
+                <span class="tag">MS Office</span>
+              </div>
+            </section>
+          </div>
+        </div>
+      </section>
+
+      <section id="about" class="section">
+        <div class="container">
+          <div class="section-header">
+            <div>
+              <h2>A Bit More About Me</h2>
+            </div>
+          </div>
+          <div class="about-layout">
+            <section class="about-row about-row--background" aria-labelledby="about-background">
+              <article class="about-copy">
+                <h3 class="about-kicker" id="about-background">Background</h3>
+                <p>
+                  I was born in Israel, where I lived for 7 years before moving to the Vancouver area, which is where I've lived since with my parents, two younger sisters, my cat and my dog.
+                  <br>
+                  Since childhood, I've always had a huge appreciation for math and logic, which snowballed into my passion for science and engineering. 
+                  After doing a high school science project on radio waves, I became particularly fascinated by electricity & magnetism, and all the incredible ways humanity has harnessed these phenomena to make truly baffling technology.
+                  <br>
+                  Most of all, I love the process of creative problem solving, finding a clever solution to a problem remains simply the most satisfying thing in the world.
+                </p>
+              </article>
+              <div class="about-visual-stack" role="group" aria-label="Background photos">
+                <div class="about-visual">
+                  <img src="pose.jpg" alt="About background photo" />
+                </div>
+              </div>
+            </section>
+            <section class="about-row about-row--passions" aria-labelledby="about-passions">
+              <div class="about-visual-stack" role="group" aria-label="Photos of hobbies and passions">
+                <div class="about-visual">
+                  <img src="soccer.jpg" alt="Soccer, one of my long-time passions" />
+                </div>
+                <div class="about-visual">
+                  <img src="guitar.jpg" alt="Guitar and music" />
+                </div>
+              </div>
+              <article class="about-copy">
+                <h3 class="about-kicker" id="about-passions">Hobbies and Passions</h3>
+                <p>
+                  Besides engineering, there is a lot that brings me joy in life. <br>
+                  Something that has always consistently done that is soccer. 
+                  I've been playing club soccer since I was four years old, and it remains as one of my favourite activities. 
+                  <br>
+                  Another major passion of mine is music, both listening and playing instruments, namely the piano and guitar. 
+                  I love music and the emotions it can induce in, and I someday want to seriously try making music myself.
+                  <br>
+                  A new but thriving hobby of mine is learning languages. In addition to english I can speak Russian (Native), decent French, and I used to speak Hebrew but forgot most of it. 
+                  I have currently been self-learning korean for the past six months, which has been going very well, and I hope to try my hand at Mandarin Chinese, Hindi, and Farsi in the future.
+                  <br> 
+                  That said, my greatest passion is human connection, which is perhaps the reason why I love working in teams and taking on leadership initiatives.
+                </p>
+              </article>
+            </section>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="footer container">
+      © 2026 Alex Carter • Open to co-op opportunities
+    </footer>
+  </body>
+</html>

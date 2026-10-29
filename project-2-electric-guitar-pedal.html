@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Electric Guitar Pedal</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
+    <style>
+      :root {
+        --bg: #f4f5f4;
+        --bg-alt: #eceeea;
+        --panel: #ffffff;
+        --panel-soft: #f0f2ef;
+        --heading: #1c2421;
+        --text: #44514b;
+        --muted: #62716b;
+        --accent: #3d6b57;
+        --accent-strong: #294d3d;
+        --accent-soft: rgba(61, 107, 87, 0.12);
+        --secondary: #6a7d73;
+        --line: rgba(30, 43, 38, 0.18);
+        --shadow: 0 12px 28px rgba(18, 27, 24, 0.08);
+      }
+
+      * { box-sizing: border-box; }
+      html { scroll-behavior: smooth; }
+      body {
+        margin: 0;
+        font-family: Arial, Helvetica, sans-serif;
+        background: radial-gradient(ellipse at 50% 0%, rgba(61, 107, 87, 0.1), transparent 44%),
+          linear-gradient(180deg, #f7f7f6 0%, #eef1ee 100%);
+        color: var(--text);
+      }
+
+      a { color: inherit; text-decoration: none; }
+      img { max-width: 100%; display: block; }
+      figcaption {text-align: center; font-size: 1.2rem;}
+
+      .detail-shell {
+        width: min(1200px, 90%);
+        margin: 0 auto;
+        padding: 0px 0 48px;
+      }
+
+      .page-nav {
+        position: sticky;
+        top: 0;
+        z-index: 1000;
+        width: 100vw;
+        margin-left: calc(50% - 50vw);
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 18px;
+        padding: 18px clamp(20px, 4vw, 44px) 18px;
+        background: rgba(255, 255, 255, 0.94);
+        backdrop-filter: blur(10px);
+        border-bottom: 1px solid var(--line);
+        transition: background-color 0.25s ease, border-color 0.25s ease, backdrop-filter 0.25s ease;
+      }
+
+      .page-nav.scrolled,
+      .page-nav:hover,
+      .page-nav:focus-within {
+        background: rgba(255, 255, 255, 0.58);
+      }
+
+      .detail-nav-links {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 22px;
+        flex: 1;
+        flex-wrap: wrap;
+      }
+
+      .detail-nav-links a {
+        color: var(--muted);
+        font-weight: 700;
+        font-size: 0.85rem;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        transition: color 0.2s ease, transform 0.2s ease;
+        display: inline-block;
+      }
+
+      .detail-nav-links a:hover,
+      .detail-nav-links a:focus-visible {
+        color: var(--accent);
+        transform: translateY(-2px) scale(1.01);
+      }
+
+      .home-link {
+        width: 20px;
+        height: 20px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        border: none;
+        background: transparent;
+        padding: 0;
+        transition: color 0.2s ease, transform 0.2s ease;
+      }
+
+      .home-link:hover,
+      .home-link:focus-visible {
+        color: var(--accent);
+        transform: translateY(-1px);
+      }
+
+      .home-link i {
+        display: block;
+        font-size: 18px;
+        line-height: 1;
+        opacity: 0.88;
+      }
+
+      .nav-button {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        color: var(--heading);
+        font-weight: 700;
+        font-size: 0.9rem;
+        transition: color 0.2s ease, transform 0.2s ease;
+        white-space: nowrap;
+      }
+
+      .nav-button:hover,
+      .nav-button:focus-visible {
+        color: var(--accent);
+        transform: translateY(-2px) scale(1.01);
+      }
+
+      .nav-button .arrow {
+        font-size: 1.3rem;
+        line-height: 1;
+      }
+
+      .hero {
+        text-align: center;
+        padding: 12px 0 16px;
+      }
+
+      h1 {
+        margin: 0 0 24px;
+        color: var(--heading);
+        font-size: clamp(2.2rem, 5vw, 4rem);
+        letter-spacing: -0.04em;
+      }
+
+      h1::after {
+        content: "";
+        display: block;
+        width: 64px;
+        height: 4px;
+        margin: 14px auto 0;
+        border-radius: 999px;
+        background: var(--accent);
+        opacity: 0.75;
+      }
+
+      .feature-image {
+        width: min(900px, 100%);
+        height: 420px;
+        margin: 0 auto 28px;
+        border-radius: 22px;
+        overflow: hidden;
+        background-image: url('https://images.unsplash.com/photo-1581092918056-0c4c3acd3789?auto=format&fit=crop&w=1200&q=80');
+        background-size: cover;
+        background-position: center;
+        border: 1px solid var(--line);
+      }
+
+      .summary {
+        background: var(--panel);
+        border: 1px solid var(--line);
+        border-radius: 24px;
+        padding: 28px;
+        box-shadow: 0 18px 30px rgba(15, 23, 42, 0.04);
+      }
+
+      .summary-section + .summary-section {
+        margin-top: 28px;
+      }
+
+      h2 {
+        margin: 0 0 12px;
+        color: var(--heading);
+        font-size: clamp(1.5rem, 2vw, 2.2rem);
+        padding: 10px 14px;
+        border-left: 4px solid var(--accent);
+        border-radius: 0 10px 10px 0;
+        background: linear-gradient(90deg, var(--accent-soft), rgba(61, 107, 87, 0));
+      }
+
+      .summary {
+        border-top: 3px solid rgba(61, 107, 87, 0.46);
+      }
+
+      .summary-section + .summary-section {
+        padding-top: 22px;
+        border-top: 1px solid rgba(61, 107, 87, 0.16);
+      }
+
+      .feature-image,
+      .media-grid img,
+      .image-placeholder,
+      .video-placeholder {
+        box-shadow: 0 16px 34px rgba(41, 77, 61, 0.12);
+      }
+
+      .media-grid img {
+        border-color: rgba(61, 107, 87, 0.24);
+      }
+
+      .summary .media-grid img {
+        border-color: rgba(61, 107, 87, 0.24);
+      }
+
+      .video-placeholder {
+        background: linear-gradient(135deg, rgba(61, 107, 87, 0.16), rgba(41, 77, 61, 0.08));
+      }
+
+      p {
+        margin: 0 0 14px;
+        line-height: 1.8;
+        color: var(--text);
+        font-size: 1.1rem;
+        padding: 0 min(30px, 10%);
+      }
+
+      .media-grid {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 16px;
+        margin: 22px 0 6px;
+      }
+
+      .audio-comparison {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 16px;
+        margin-top: 22px;
+      }
+
+      .audio-example h3 {
+        margin: 0 0 10px;
+        text-align: center;
+      }
+
+      .audio-example audio {
+        display: block;
+        width: 90%;
+        margin: 0 auto;
+      }
+
+      .media-grid img {
+        width: 100%;
+        height: 240px;
+        object-fit: cover;
+        border-radius: 18px;
+        border: 1px solid var(--line);
+      }
+
+      .video-placeholder {
+        display: grid;
+        place-items: center;
+        min-height: 240px;
+        border-radius: 18px;
+        background: linear-gradient(135deg, rgba(61, 107, 87, 0.16), rgba(41, 77, 61, 0.08));
+        border: 1px solid var(--line);
+        color: var(--heading);
+        font-weight: 700;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+      }
+
+      .image-placeholder {
+        width: min(700px, 100%);
+        margin: 22px auto 6px;
+        display: grid;
+        place-items: center;
+        background: linear-gradient(135deg, rgba(61, 107, 87, 0.12), rgba(41, 77, 61, 0.08));
+        border: 1px solid var(--line);
+        color: var(--heading);
+        font-weight: 700;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+      }
+
+      @media (max-width: 700px) {
+        .page-nav {
+          flex-wrap: wrap;
+        }
+
+        .nav-button, .back-link {
+          flex: 1 1 100%;
+          justify-content: center;
+          text-align: center;
+        }
+
+        .media-grid {
+          grid-template-columns: 1fr;
+        }
+
+        .audio-comparison {
+          grid-template-columns: 1fr;
+        }
+      }
+    </style>
+  </head>
+  <body id="top">
+    <div class="detail-shell">
+      <header class="page-nav">
+        <a class="nav-button prev" href="project-1-mechanical-claw.html"><span class="arrow">‹</span> Mechanical Claw</a>
+        <nav class="detail-nav-links" aria-label="Main navigation">
+          <a class="home-link" href="portfolio-engineering.html#top" aria-label="Back to home">
+            <i class="fa-solid fa-house-chimney" aria-hidden="true"></i>
+          </a>
+          <a href="portfolio-engineering.html#projects">Projects</a>
+          <a href="portfolio-engineering.html#experience">Experience</a>
+          <a href="portfolio-engineering.html#education">Education</a>
+          <a href="portfolio-engineering.html#about">About Me</a>
+        </nav>
+        <a class="nav-button next" href="project-3-cardboard-chair.html">Cardboard Chair <span class="arrow">›</span></a>
+      </header>
+
+      <script>
+        const detailNav = document.querySelector('.page-nav');
+        const updateDetailNavState = () => {
+          if (!detailNav) return;
+          detailNav.classList.toggle('scrolled', window.scrollY > 8);
+        };
+        updateDetailNavState();
+        window.addEventListener('scroll', updateDetailNavState, { passive: true });
+      </script>
+
+      <main>
+
+        <section class="hero">
+          <h1>Electric Guitar Pedal</h1>
+        </section>
+
+        <article class="summary">
+          <section class="summary-section">
+            <p>
+              I have fully designed and simulated a distortion guitar pedal 
+              digitally using KiCad and LTSpice. This project is still currently a work in progress, however, and I have yet to acquire some of the parts necessary to 
+              test it on my guitar.
+            </p>
+          </section>
+
+          <section class="summary-section">
+            <h2>Simulation</h2>
+            <figure>
+              <img class="image-placeholder" id="schematic" src="distortion-pedal-schematic.png"/>
+              <figcaption>Pedal Schematic in LTSpice + directives for simulation</figcaption>
+            </figure>
+
+            <p>
+              I designed a distortion pedal for an electric guitar and simulated its effect in LTSpice. This pedal uses a 
+              BJT Common Emitter amplifier and hard-clipping distortion. Hard clipping is where 
+              the signal is amplified, then gets sent through clipping diodes, which abruptly "chop" the peaks of the wave. 
+              As opposed to soft clipping, where the clipping diodes are located in the feedback of the amplifier, creating 
+              a smoother "chopping" of the waveform, this is commonly referred to as an overdrive pedal. 
+            </p>
+            <p>You can see the effect of the pedal for yourself with the following audios:</p>
+
+            <div class="audio-comparison">
+              <div class="audio-example">
+                <h3>Original:</h3>
+                <audio controls>
+                  <source src="GuitarSampleShort.wav" type="audio/wav">
+                </audio>
+              </div>
+              <div class="audio-example">
+                <h3>Distorted:  </h3>
+                <audio controls>
+                  <source src="output5kRE.wav" type="audio/wav">
+                </audio>
+              </div>
+            </div>
+
+          </section>
+
+          <section class="summary-section">
+            <h2>Project Goals</h2>
+            <p>
+              I intend to make an overdrive pedal (soft clipping) in addition to the distortion pedal, and I 
+              intend to breadboard both of them, and test them out on my guitar. I will also definitely be 
+              improving the circuit by adding control knobs for volume, distortion, and tone. 
+              After designing the whole thing, I will get a PCB and casing for it, where it will attain its final and glorious form.
+            </p>
+          </section>
+        </article>
+      </main>
+    </div>
+  </body>
+</html>
